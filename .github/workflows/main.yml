@@ -87,3 +87,4 @@ jobs:
           DEBUG: true
           fixType: batch
           files: changed
+          createPR: true
