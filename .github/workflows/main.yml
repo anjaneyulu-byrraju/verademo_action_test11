@@ -85,6 +85,6 @@ jobs:
           prComment: true
           cwe: '331'
           DEBUG: true
-          fixType: batch
-          files: all
+          fixType: single
+          files: changed
           createPR: true
