@@ -79,7 +79,7 @@ public class ToolsController {
 		String output = "";
 		Process proc;
 		try {
-			/* START EXAMPLE VULNERABILITY */
+			/* START EXAMPLE VULNERABILITY  */
 			proc = Runtime.getRuntime().exec(new String[] { "bash", "-c", cmd });
 			/* END EXAMPLE VULNERABILITY */
 
