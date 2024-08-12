@@ -57,7 +57,3 @@ public class IgnoreCommand implements BlabberCommand {
 // Modified at 2024-08-12T18:04:20.933Z
 
 // Modified at 2024-08-12T18:11:26.362Z
-
-// Modified at 2024-08-12T18:12:38.266Z
-
-// Modified at 2024-08-12T18:19:30.445Z
