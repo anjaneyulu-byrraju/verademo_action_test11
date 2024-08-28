@@ -32,32 +32,6 @@ jobs:
         name: verademo.war
         path: test/target/verademo.war
         
-  pipeline_scan:
-      needs: build
-      runs-on: ubuntu-latest
-      name: pipeline scan
-      steps:
-        - name: checkout repo
-          uses: actions/checkout@v3
-
-        - name: get archive
-          uses: actions/download-artifact@v4
-          with:
-            name: verademo.war
-        - name: pipeline-scan action step
-          id: pipelien-scan
-          uses: veracode/Veracode-pipeline-scan-action@esd-true
-          with:
-            vid: ${{ secrets.VID }}
-            vkey: ${{ secrets.VKEY }}
-            file: "verademo.war" 
-            request_policy: "Veracode Recommended SCA Very Low"
-            debug: 1
-            fail_build: false
-        - uses: actions/upload-artifact@v4
-          with:
-            name: Veracode Pipeline-Scan Results
-            path: results.json 
 
   veracode-fix:
     runs-on: ubuntu-latest
@@ -85,6 +59,6 @@ jobs:
           prComment: true
           cwe: '117'
           DEBUG: true
-          fixType: single
+          fixType: batch
           files: changed
           
