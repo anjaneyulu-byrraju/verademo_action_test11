@@ -47,9 +47,11 @@ public class IgnoreCommand implements BlabberCommand {
 			sqlStatement.execute(sqlQuery);
 			/* END EXAMPLE VULNERABILITY */
 		} catch (SQLException e) {
-			// TODO Auto-generated catch blocked
+			// TODO Auto-generated catch blocked test
 			e.printStackTrace();
 		}
 	}
 
 }
+
+
