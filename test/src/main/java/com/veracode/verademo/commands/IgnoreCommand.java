@@ -41,16 +41,13 @@ public class IgnoreCommand implements BlabberCommand {
 			result.next();
 
 			/* START EXAMPLE VULNERABILITY */
-			String event = username + " is now ignoring " + result.getString(1) + " (" + result.getString(1) + ")";
-			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (?,?)";
+			String event = username + " is now ignoring " + blabberUsername + " (" + result.getString(1) + ")";
+			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (\"" + username + "\", \"" + event + "\")";
 			logger.info(sqlQuery);
-			PreparedStatement preparedStatement = connect.prepareStatement(sqlQuery);
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, event);
-			preparedStatement.execute();
+			sqlStatement.execute(sqlQuery);
 			/* END EXAMPLE VULNERABILITY */
 		} catch (SQLException e) {
-			// TODO Auto-generated catch blocked
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
