@@ -24,3 +24,5 @@ public class FileReaderExample {
         // Vulnerability: Reader is not closed in the 'finally' block or using try-with-resources
     }
 }
+
+
