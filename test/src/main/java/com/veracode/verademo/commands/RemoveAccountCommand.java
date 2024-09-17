@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 public class RemoveAccountCommand implements BlabberCommand {
 	private static final Logger logger = LogManager.getLogger("VeraDemo:RemoveAccountCommand");
@@ -43,6 +44,9 @@ public class RemoveAccountCommand implements BlabberCommand {
 			result.next();
 
 			/* START EXAMPLE VULNERABILITY */
+			Set<String> whitelistResultGetstring1 = new HashSet<>(Arrays.asList("item1", "item2", "item3"));
+			if (!result.getString(1).matches("\\w+(\\s*\\.\\s*\\w+)*") && !whitelistResultGetstring1.contains(result.getString(1)))
+			    throw new IllegalArgumentException();
 			String event = "Removed account for blabber " + result.getString(1);
 			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES ('" + blabberUsername + "', '" + event + "')";
 			logger.info(sqlQuery);
@@ -50,7 +54,9 @@ public class RemoveAccountCommand implements BlabberCommand {
 
 			sqlQuery = "DELETE FROM users WHERE username = '" + blabberUsername + "'";
 			logger.info(sqlQuery);
-			sqlStatement.execute(sqlQuery);
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+			ps.setString(1, blabberUsername);
+			ps.execute();
 			/* END EXAMPLE VULNERABILITY */
 
 		} catch (SQLException e) {
