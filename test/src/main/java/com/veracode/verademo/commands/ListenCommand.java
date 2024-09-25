@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 public class ListenCommand implements BlabberCommand {
 	private static final Logger logger = LogManager.getLogger("VeraDemo:ListenCommand");
@@ -41,10 +42,18 @@ public class ListenCommand implements BlabberCommand {
 			result.next();
 
 			/* START EXAMPLE VULNERABILITY */
-			String event = username + " started listening to " + blabberUsername + " (" + result.getString(1) + ")";
+			Set<String> whitelistSqlstatementExecutequerySqlquery = new HashSet<>(Arrays.asList("item1", "item2", "item3"));
+			if (!sqlStatement.executeQuery(sqlQuery).matches("\\w+(\\s*\\.\\s*\\w+)*") && !whitelistSqlstatementExecutequerySqlquery.contains(sqlStatement.executeQuery(sqlQuery)))
+			    throw new IllegalArgumentException();
+			Set<String> whitelistBlabberusername = new HashSet<>(Arrays.asList("item1", "item2", "item3"));
+			if (!blabberUsername.matches("\\w+(\\s*\\.\\s*\\w+)*") && !whitelistBlabberusername.contains(blabberUsername))
+			    throw new IllegalArgumentException();
+			String event = username + " started listening to " + blabberUsername + " (" + sqlStatement.executeQuery(sqlQuery) + ")";
 			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (\"" + username + "\", \"" + event + "\")";
 			logger.info(sqlQuery);
-			sqlStatement.execute(sqlQuery);
+			PreparedStatement statement = connection.prepareStatement(sqlQuery);
+			statement.setString(1, username);
+			statement.execute();
 			/* END EXAMPLE VULNERABILITY */
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -53,3 +62,4 @@ public class ListenCommand implements BlabberCommand {
 	}
 
 }
+
